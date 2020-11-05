@@ -13,7 +13,21 @@ public class NetworkParams {
         put("consumer_secret",CONSUMER_SECRET);
     }};
 
-    public static Map<String, String> getProducts(){
+    public static Map<String, String> getLastProductsOptions(){
         return BASE_OPTIONS;
+    }
+
+    public static Map<String, String> getMostViewProductsOptions(){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("orderby","popularity");
+        }};
+    }
+
+    public static Map<String, String> getMostPointsProductsOptions(){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("orderby","rating");
+        }};
     }
 }

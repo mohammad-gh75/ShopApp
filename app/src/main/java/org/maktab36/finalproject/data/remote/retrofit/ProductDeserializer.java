@@ -1,5 +1,7 @@
 package org.maktab36.finalproject.data.remote.retrofit;
 
+import android.util.Log;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

@@ -1,14 +1,17 @@
 package org.maktab36.finalproject.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.maktab36.finalproject.R;
+import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.databinding.ListRowProductBinding;
 import org.maktab36.finalproject.viewmodel.MainViewModel;
 
@@ -37,13 +40,12 @@ public class ListLastProductAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull LastProductViewHolder holder, int position) {
-
         holder.bindProduct(position);
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return mViewModel.getLastProducts().size();
     }
 
     public class LastProductViewHolder extends RecyclerView.ViewHolder {
@@ -55,17 +57,20 @@ public class ListLastProductAdapter extends
             mRowProductBinding = rowProductBinding;
 
             mRowProductBinding.getRoot().setOnClickListener(view -> {
-                Toast.makeText(mViewModel.getApplication(), String.valueOf(mPosition), Toast.LENGTH_SHORT).show();
             });
 
         }
 
         public void bindProduct(int position) {
-            mPosition=position;
-            mRowProductBinding.imageViewProductImage.setImageDrawable(
-                    mViewModel.getApplication().getResources().getDrawable(R.drawable.ic_image));
-            mRowProductBinding.textViewProductNumber.setText(String.valueOf(position+1));
-            mRowProductBinding.textViewProductName.setText("this is number "+position+" product");
+            Log.d("tag", "bindProduct: ");
+            mPosition = position;
+            Product product = mViewModel.getLastProducts().get(position);
+            mRowProductBinding.textViewProductNumber.setText(String.valueOf(position + 1));
+            mRowProductBinding.textViewProductName.setText(product.getName());
+            Picasso.get()
+                    .load(product.getImagesUrl().get(0))
+                    .placeholder(R.drawable.ic_image)
+                    .into(mRowProductBinding.imageViewProductImage);
         }
     }
 }
