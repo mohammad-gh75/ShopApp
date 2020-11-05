@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Final Project</string>
+
+    <string name="last_product">جديد ترين محصولات</string>
+    <string name="most_points_product">بهترین محصولات</string>
+    <string name="most_view_product">پر بازدید ترین محصولات</string>
 </resources>

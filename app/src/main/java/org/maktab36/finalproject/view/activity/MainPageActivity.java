@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import androidx.fragment.app.Fragment;
 
+import org.maktab36.finalproject.view.fragment.MainPageFragment;
+
 public class MainPageActivity extends SingleFragmentActivity {
 
     public static Intent newIntent(Context context) {
@@ -14,6 +16,6 @@ public class MainPageActivity extends SingleFragmentActivity {
 
     @Override
     public Fragment createFragment() {
-        return null;
+        return MainPageFragment.newInstance();
     }
 }
