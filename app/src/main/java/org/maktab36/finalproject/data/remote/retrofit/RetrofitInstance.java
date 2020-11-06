@@ -13,10 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
 
-    public static Retrofit getInstance(Type type, Object typeAdapter){
+    public static Retrofit getInstance(Type type1, Object typeAdapter1,Type type2, Object typeAdapter2){
         Retrofit retrofit =new Retrofit.Builder()
                 .baseUrl(NetworkParams.BASE_PATH)
-                .addConverterFactory(createGsonConverter(type,typeAdapter))
+                .addConverterFactory(createGsonConverter(type1,typeAdapter1))
+                .addConverterFactory(createGsonConverter(type2,typeAdapter2))
                 .build();
 
         return retrofit;

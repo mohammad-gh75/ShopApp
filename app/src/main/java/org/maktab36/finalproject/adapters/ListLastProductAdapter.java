@@ -50,25 +50,25 @@ public class ListLastProductAdapter extends
 
     public class LastProductViewHolder extends RecyclerView.ViewHolder {
         private ListRowProductBinding mRowProductBinding;
-        private int mPosition;
+        private Product mProduct;
 
         public LastProductViewHolder(ListRowProductBinding rowProductBinding) {
             super(rowProductBinding.getRoot());
             mRowProductBinding = rowProductBinding;
 
             mRowProductBinding.getRoot().setOnClickListener(view -> {
+                mViewModel.onProductSelectedLiveData(mProduct);
             });
 
         }
 
         public void bindProduct(int position) {
             Log.d("tag", "bindProduct: ");
-            mPosition = position;
-            Product product = mViewModel.getLastProducts().get(position);
+            mProduct = mViewModel.getLastProducts().get(position);
             mRowProductBinding.textViewProductNumber.setText(String.valueOf(position + 1));
-            mRowProductBinding.textViewProductName.setText(product.getName());
+            mRowProductBinding.textViewProductName.setText(mProduct.getName());
             Picasso.get()
-                    .load(product.getImagesUrl().get(0))
+                    .load(mProduct.getImagesUrl().get(0))
                     .placeholder(R.drawable.ic_image)
                     .into(mRowProductBinding.imageViewProductImage);
         }

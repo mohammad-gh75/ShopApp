@@ -49,25 +49,23 @@ public class ListMostPointsProductAdapter extends
 
     public class MostPointsProductViewHolder extends RecyclerView.ViewHolder {
         private ListRowProductBinding mRowProductBinding;
-        private int mPosition;
-
+        private Product mProduct;
         public MostPointsProductViewHolder(ListRowProductBinding rowProductBinding) {
             super(rowProductBinding.getRoot());
             mRowProductBinding = rowProductBinding;
 
             mRowProductBinding.getRoot().setOnClickListener(view -> {
-
+                mViewModel.onProductSelectedLiveData(mProduct);
             });
 
         }
 
         public void bindProduct(int position) {
-            mPosition = position;
-            Product product = mViewModel.getMostPointsProducts().get(position);
+            mProduct = mViewModel.getMostPointsProducts().get(position);
             mRowProductBinding.textViewProductNumber.setText(String.valueOf(position + 1));
-            mRowProductBinding.textViewProductName.setText(product.getName());
+            mRowProductBinding.textViewProductName.setText(mProduct.getName());
             Picasso.get()
-                    .load(product.getImagesUrl().get(0))
+                    .load(mProduct.getImagesUrl().get(0))
                     .placeholder(R.drawable.ic_image)
                     .into(mRowProductBinding.imageViewProductImage);
         }

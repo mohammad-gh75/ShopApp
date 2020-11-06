@@ -13,6 +13,10 @@ public class NetworkParams {
         put("consumer_secret",CONSUMER_SECRET);
     }};
 
+    public static Map<String, String> getBaseOptions(){
+        return BASE_OPTIONS;
+    }
+
     public static Map<String, String> getLastProductsOptions(){
         return BASE_OPTIONS;
     }

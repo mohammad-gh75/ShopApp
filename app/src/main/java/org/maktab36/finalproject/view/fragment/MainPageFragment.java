@@ -59,6 +59,14 @@ public class MainPageFragment extends Fragment {
         mMainViewModel.getMostPointsProductsLiveData().observe(this, products -> {
             setMostPointsProductsAdapter();
         });
+
+        mMainViewModel.getSelectedProductLiveData().observe(this, product -> {
+            ProductFragment fragment=ProductFragment.newInstance(product.getId());
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container,fragment)
+                    .commit();
+        });
     }
 
     @Override

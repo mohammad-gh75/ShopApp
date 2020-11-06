@@ -7,7 +7,7 @@ public class Product {
     private String mName;
     private String mDescription;
     private String mPrice;
-    private String mLinkPath;
+//    private String mLinkPath;
     private List<String> mImagesUrl;
 
     public int getId() {
@@ -42,13 +42,13 @@ public class Product {
         mPrice = price;
     }
 
-    public String getLinkPath() {
+    /*public String getLinkPath() {
         return mLinkPath;
     }
 
     public void setLinkPath(String linkPath) {
         mLinkPath = linkPath;
-    }
+    }*/
 
     public List<String> getImagesUrl() {
         return mImagesUrl;
@@ -62,12 +62,12 @@ public class Product {
     }
 
     public Product(int id, String name, String description,
-                   String price, String linkPath, List<String> imagesUrl) {
+                   String price/*, String linkPath*/, List<String> imagesUrl) {
         mId = id;
         mName = name;
         mDescription = description;
         mPrice = price;
-        mLinkPath = linkPath;
+//        mLinkPath = linkPath;
         mImagesUrl = imagesUrl;
     }
 }

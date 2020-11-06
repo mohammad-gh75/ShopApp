@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.data.remote.NetworkParams;
 import org.maktab36.finalproject.data.remote.retrofit.ProductDeserializer;
+import org.maktab36.finalproject.data.remote.retrofit.ProductListDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.RetrofitInstance;
 import org.maktab36.finalproject.data.remote.retrofit.WoocommerceService;
 
@@ -27,6 +28,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mLastProductsLiveData =new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostViewProductsLiveData =new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostPointsProductsLiveData =new MutableLiveData<>();
+    private MutableLiveData<Product> mSelectedProductLiveData =new MutableLiveData<>();
 
     public static ProductRepository getInstance() {
         if (sInstance == null) {
@@ -36,11 +38,13 @@ public class ProductRepository {
     }
 
     private ProductRepository() {
-        Type type = new TypeToken<List<Product>>() {
-        }.getType();
-        Object typeAdapter = new ProductDeserializer();
+        Type type1 = new TypeToken<List<Product>>() {}.getType();
+        Object typeAdapter1 = new ProductListDeserializer();
 
-        Retrofit retrofit = RetrofitInstance.getInstance(type, typeAdapter);
+        Type type2 = new TypeToken<Product>() {}.getType();
+        Object typeAdapter2 = new ProductDeserializer();
+
+        Retrofit retrofit = RetrofitInstance.getInstance(type1, typeAdapter1,type2,typeAdapter2);
         mWoocommerceService = retrofit.create(WoocommerceService.class);
     }
 
@@ -54,6 +58,10 @@ public class ProductRepository {
 
     public MutableLiveData<List<Product>> getMostPointsProductsLiveData() {
         return mMostPointsProductsLiveData;
+    }
+
+    public MutableLiveData<Product> getSelectedProductLiveData() {
+        return mSelectedProductLiveData;
     }
 
     public void fetchLastProductsLiveData() {
@@ -102,6 +110,25 @@ public class ProductRepository {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.d("tag", t.toString(),t);
+            }
+        });
+    }
+
+    public void fetchSelectedProductLiveData(int id){
+        Call<Product> call =mWoocommerceService.getProduct(
+                id,
+                NetworkParams.getBaseOptions()
+        );
+        call.enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                Log.d("tag", call.request().url().toString());
+                mSelectedProductLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
                 Log.d("tag", t.toString(),t);
             }
         });

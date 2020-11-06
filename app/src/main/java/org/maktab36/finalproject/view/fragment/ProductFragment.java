@@ -23,15 +23,17 @@ public class ProductFragment extends Fragment {
     private FragmentProductBinding mProductBinding;
     private ListProductImageAdapter mImageAdapter;
     private ProductViewModel mProductViewModel;
+    public static final String ARG_PRODUCT_ID = "productId";
 
     public ProductFragment() {
         // Required empty public constructor
     }
 
 
-    public static ProductFragment newInstance() {
+    public static ProductFragment newInstance(int id) {
         ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
+        args.putInt(ARG_PRODUCT_ID,id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,8 +41,12 @@ public class ProductFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        int id=getArguments().getInt(ARG_PRODUCT_ID);
         mProductViewModel=new ViewModelProvider(this).get(ProductViewModel.class);
+        mProductViewModel.getSelectedProductLiveData().observe(this,product -> {
+            setAdapter();
+        });
+        mProductViewModel.fetchSelectedProductLiveData(id);
     }
 
     @Override
@@ -49,19 +55,25 @@ public class ProductFragment extends Fragment {
         mProductBinding= DataBindingUtil
                 .inflate(inflater,R.layout.fragment_product,container,false);
 
+        initUI();
 
-
-//        setAdapter();
         return mProductBinding.getRoot();
     }
 
-    /*private void setAdapter() {
+    private void initUI() {
+        mProductBinding.textViewProductName
+                .setText(mProductViewModel.getSelectedProduct().getName());
+        mProductBinding.textViewProductPrice
+                .setText(mProductViewModel.getSelectedProduct().getPrice());
+    }
+
+    private void setAdapter() {
         if(mImageAdapter == null){
             mImageAdapter=new ListProductImageAdapter(mProductViewModel);
-            mProductBinding.listProductImages.setAdapter(mImageAdapter);
+            mProductBinding.productImageSlider.setSliderAdapter(mImageAdapter);
         }else{
             mImageAdapter.notifyDataSetChanged();
         }
-    }*/
+    }
 
 }
