@@ -5,4 +5,7 @@
     <string name="most_points_product">بهترین محصولات</string>
     <string name="most_view_product">پر بازدید ترین محصولات</string>
     <string name="description_product_image">product image</string>
+
+    <string name="drawer_close">close</string>
+    <string name="drawer_open">open</string>
 </resources>

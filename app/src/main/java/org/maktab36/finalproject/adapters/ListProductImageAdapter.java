@@ -1,34 +1,42 @@
 package org.maktab36.finalproject.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import com.smarteist.autoimageslider.SliderViewAdapter;
+
+import org.maktab36.finalproject.viewmodel.ProductViewModel;
 
 public class ListProductImageAdapter extends
-        RecyclerView.Adapter<ListProductImageAdapter.ProductImageViewHolder> {
+        SliderViewAdapter<ListProductImageAdapter.SliderViewHolder> {
+    private ProductViewModel mViewModel;
+
+    public ListProductImageAdapter(ProductViewModel viewModel) {
+        mViewModel = viewModel;
+    }
 
 
-    @NonNull
     @Override
-    public ProductImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SliderViewHolder onCreateViewHolder(ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(mViewModel.getApplication());
+
         return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductImageViewHolder holder, int position) {
+    public void onBindViewHolder(SliderViewHolder viewHolder, int position) {
 
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return 0;
     }
 
-    public class ProductImageViewHolder extends RecyclerView.ViewHolder{
+    public class SliderViewHolder extends SliderViewAdapter.ViewHolder {
 
-        public ProductImageViewHolder(@NonNull View itemView) {
+        public SliderViewHolder(View itemView) {
             super(itemView);
         }
     }
