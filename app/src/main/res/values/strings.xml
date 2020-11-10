@@ -8,4 +8,6 @@
 
     <string name="drawer_close">close</string>
     <string name="drawer_open">open</string>
+
+    <string name="product_price">%1$s تومان</string>
 </resources>

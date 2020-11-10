@@ -1,21 +1,26 @@
 package org.maktab36.finalproject.view.fragment;
 
+import android.icu.util.LocaleData;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager2.adapter.StatefulAdapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.adapters.ListProductImageAdapter;
 import org.maktab36.finalproject.databinding.FragmentProductBinding;
 import org.maktab36.finalproject.viewmodel.ProductViewModel;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 public class ProductFragment extends Fragment {
@@ -64,13 +69,23 @@ public class ProductFragment extends Fragment {
         mProductBinding.textViewProductName
                 .setText(mProductViewModel.getSelectedProduct().getName());
         mProductBinding.textViewProductPrice
-                .setText(mProductViewModel.getSelectedProduct().getPrice());
+                .setText(getString(
+                        R.string.product_price,
+                        getFormattedPrice()));
+    }
+
+    private String getFormattedPrice(){
+        String price = mProductViewModel.getSelectedProduct().getPrice();
+        return String.format(new Locale("fa"),"%,d",Long.parseLong(price));
     }
 
     private void setAdapter() {
         if(mImageAdapter == null){
             mImageAdapter=new ListProductImageAdapter(mProductViewModel);
             mProductBinding.productImageSlider.setSliderAdapter(mImageAdapter);
+            mProductBinding.productImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+            mProductBinding.productImageSlider
+                    .setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         }else{
             mImageAdapter.notifyDataSetChanged();
         }

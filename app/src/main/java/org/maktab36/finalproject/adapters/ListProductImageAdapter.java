@@ -12,13 +12,17 @@ import com.squareup.picasso.Picasso;
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.viewmodel.ProductViewModel;
 
+import java.util.List;
+
 public class ListProductImageAdapter extends
         SliderViewAdapter<ListProductImageAdapter.SliderViewHolder> {
 
     private ProductViewModel mViewModel;
+    private List<String> paths;
 
     public ListProductImageAdapter(ProductViewModel viewModel) {
         mViewModel = viewModel;
+        paths=mViewModel.getSelectedProduct().getImagesUrl();
     }
 
 
@@ -31,18 +35,13 @@ public class ListProductImageAdapter extends
 
     @Override
     public void onBindViewHolder(SliderViewHolder viewHolder, int position) {
-        String imageUrl = mViewModel.getSelectedProduct().getImagesUrl().get(position);
-        Glide.with(mViewModel.getApplication())
-                .asBitmap()
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_image)
-                .into(viewHolder.mImageView);
-//        viewHolder.bindImages(position);
+        String imageUrl = paths.get(position);
+        viewHolder.bindProduct(imageUrl);
     }
 
     @Override
     public int getCount() {
-        return mViewModel.getSelectedProduct().getImagesUrl().size();
+        return paths.size();
     }
 
     public class SliderViewHolder extends SliderViewAdapter.ViewHolder {
@@ -53,13 +52,12 @@ public class ListProductImageAdapter extends
             mImageView=view.findViewById(R.id.slide_image_product);
         }
 
-        /*public void bindImages(int position) {
-
-            *//*Picasso.get()
-                    .load(url)
+        public void bindProduct(String imageUrl){
+            Glide.with(mViewModel.getApplication())
+                    .asBitmap()
+                    .load(imageUrl)
                     .placeholder(R.drawable.ic_image)
-                    .into(mImageView);*//*
-
-        }*/
+                    .into(mImageView);
+        }
     }
 }
