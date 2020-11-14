@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.data.model.Product;
-import org.maktab36.finalproject.databinding.ListRowProductBinding;
+import org.maktab36.finalproject.databinding.ListRowMostViewProductBinding;
 import org.maktab36.finalproject.viewmodel.MainViewModel;
 
 public class ListMostViewProductAdapter extends
@@ -27,10 +27,10 @@ public class ListMostViewProductAdapter extends
     @Override
     public MostViewProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mViewModel.getApplication());
-        ListRowProductBinding rowProductBinding =
+        ListRowMostViewProductBinding rowProductBinding =
                 DataBindingUtil.inflate(
                         inflater,
-                        R.layout.list_row_product,
+                        R.layout.list_row_most_view_product,
                         parent,
                         false);
 
@@ -48,9 +48,9 @@ public class ListMostViewProductAdapter extends
     }
 
     public class MostViewProductViewHolder extends RecyclerView.ViewHolder {
-        private ListRowProductBinding mRowProductBinding;
+        private ListRowMostViewProductBinding mRowProductBinding;
         private Product mProduct;
-        public MostViewProductViewHolder(ListRowProductBinding rowProductBinding) {
+        public MostViewProductViewHolder(ListRowMostViewProductBinding rowProductBinding) {
             super(rowProductBinding.getRoot());
             mRowProductBinding = rowProductBinding;
 

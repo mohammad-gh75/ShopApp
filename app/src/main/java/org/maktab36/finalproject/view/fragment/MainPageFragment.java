@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab36.finalproject.R;
@@ -94,11 +95,16 @@ public class MainPageFragment extends Fragment {
                         RecyclerView.HORIZONTAL,
                         true));
         mFragmentMainPageBinding.listMostPointsProduct.setLayoutManager(
+                new LinearLayoutManager(
+                        requireContext(),
+                        RecyclerView.HORIZONTAL,
+                        true));
+        /*mFragmentMainPageBinding.listMostPointsProduct.setLayoutManager(
                 new GridLayoutManager(
                         requireContext(),
                         3,
                         RecyclerView.HORIZONTAL,
-                        true));
+                        true));*/
     }
 
     private void setLastProductsAdapter() {
