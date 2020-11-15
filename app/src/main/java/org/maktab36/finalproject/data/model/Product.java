@@ -9,6 +9,7 @@ public class Product {
     private String mPrice;
 //    private String mLinkPath;
     private List<String> mImagesUrl;
+    private float mRate;
 
     public int getId() {
         return mId;
@@ -42,6 +43,14 @@ public class Product {
         mPrice = price;
     }
 
+    public float getRate() {
+        return mRate;
+    }
+
+    public void setRate(float rate) {
+        mRate = rate;
+    }
+
     /*public String getLinkPath() {
         return mLinkPath;
     }
@@ -62,12 +71,13 @@ public class Product {
     }
 
     public Product(int id, String name, String description,
-                   String price/*, String linkPath*/, List<String> imagesUrl) {
+                   String price/*, String linkPath*/, List<String> imagesUrl,float rate) {
         mId = id;
         mName = name;
         mDescription = description;
         mPrice = price;
 //        mLinkPath = linkPath;
         mImagesUrl = imagesUrl;
+        mRate=rate;
     }
 }

@@ -1,12 +1,13 @@
 package org.maktab36.finalproject.view.fragment;
 
-import android.icu.util.LocaleData;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,6 @@ import org.maktab36.finalproject.adapters.ListProductImageAdapter;
 import org.maktab36.finalproject.databinding.FragmentProductBinding;
 import org.maktab36.finalproject.viewmodel.ProductViewModel;
 
-import java.text.NumberFormat;
 import java.util.Locale;
 
 
@@ -72,11 +72,19 @@ public class ProductFragment extends Fragment {
                 .setText(getString(
                         R.string.product_price,
                         getFormattedPrice()));
+        mProductBinding.ratingBar.setRating(mProductViewModel.getSelectedProduct().getRate());
+        mProductBinding.textViewProductDescription.setText(getProductDescription());
     }
 
     private String getFormattedPrice(){
         String price = mProductViewModel.getSelectedProduct().getPrice();
         return String.format(new Locale("fa"),"%,d",Long.parseLong(price));
+    }
+
+    private String getProductDescription() {
+        String description=
+                Html.fromHtml(mProductViewModel.getSelectedProduct().getDescription()).toString();
+        return description.replace(":"," :");
     }
 
     private void setAdapter() {

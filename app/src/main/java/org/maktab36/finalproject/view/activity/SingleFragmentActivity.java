@@ -42,7 +42,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
         if (fragment == null) {
             fragmentManager
                     .beginTransaction()
-                    .add(R.id.fragment_container, createFragment())
+                    .replace(R.id.fragment_container, createFragment())
+                    .addToBackStack("MainPageFragment")
                     .commit();
         }
     }
@@ -76,6 +77,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
     public void onBackPressed() {
         if(mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)){
             mBinding.drawerLayout.closeDrawer(GravityCompat.START);
+        }else if(getSupportFragmentManager().getBackStackEntryCount()>0){
+//            getSupportFragmentManager().popBackStackImmediate("MainPageFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//            getSupportFragmentManager().popBackStackImmediate();
         }else{
             super.onBackPressed();
         }
