@@ -1,8 +1,14 @@
 package org.maktab36.finalproject.view.activity;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,13 +19,22 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.databinding.ActivitySingleFragmentBinding;
 import org.maktab36.finalproject.databinding.DrawerLayoutBinding;
 
-public abstract class SingleFragmentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class SingleFragmentActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public abstract Fragment createFragment();
 
@@ -46,6 +61,48 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
                     .addToBackStack("MainPageFragment")
                     .commit();
         }
+
+        createNavigationMenu();
+    }
+
+    private void createNavigationMenu(){
+        Menu menu=mBinding.navView.getMenu();
+        MenuItem item=menu.add("1");
+//        item.setIcon(R.drawable.ic_image);
+
+        Picasso.get()
+                .load("https://woocommerce.maktabsharif.ir/wp-content/uploads/2019/12/suit.png")
+                .placeholder(R.drawable.ic_image)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        Log.d("reza", "onBitmapLoaded: ");
+                        item.setIcon(new BitmapDrawable(getResources(),bitmap));
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                        Log.d("reza", e.toString(),e);
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        Log.d("reza", "onPrepareLoad: ");
+                        item.setIcon(placeHolderDrawable);
+                    }
+                });
+
+
+        /*Glide.with(this)
+                .asBitmap()
+                .load("https://woocommerce.maktabsharif.ir/wp-content/uploads/2019/12/suit.png")
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Log.d("reza", "onResourceReady: ");
+                        menu.getItem(0).setIcon(new BitmapDrawable(getResources(),resource));
+                    }
+                });*/
     }
 
     @Override
@@ -68,10 +125,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
+
 
     @Override
     public void onBackPressed() {
