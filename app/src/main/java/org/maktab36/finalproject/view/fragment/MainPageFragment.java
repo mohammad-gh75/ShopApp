@@ -12,10 +12,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.adapters.ListLastProductAdapter;
 import org.maktab36.finalproject.adapters.ListMostPointsProductAdapter;
 import org.maktab36.finalproject.adapters.ListMostViewProductAdapter;
+import org.maktab36.finalproject.adapters.ListSpecialProductAdapter;
 import org.maktab36.finalproject.databinding.FragmentMainPageBinding;
 import org.maktab36.finalproject.viewmodel.MainViewModel;
 
@@ -26,6 +30,7 @@ public class MainPageFragment extends Fragment {
     private ListLastProductAdapter mLastProductAdapter;
     private ListMostViewProductAdapter mMostViewProductAdapter;
     private ListMostPointsProductAdapter mMostPointsProductAdapter;
+    private ListSpecialProductAdapter mSpecialProductAdapter;
 
     public MainPageFragment() {
         // Required empty public constructor
@@ -49,25 +54,25 @@ public class MainPageFragment extends Fragment {
     }
 
     private void registerObservers() {
-        mMainViewModel.getLastProductsLiveData().observe(this, products -> {
-            setLastProductsAdapter();
-        });
+        mMainViewModel.getLastProductsLiveData().observe(this, products ->
+                setLastProductsAdapter());
 
-        mMainViewModel.getMostViewProductsLiveData().observe(this, products -> {
-            setMostViewProductsAdapter();
-        });
+        mMainViewModel.getMostViewProductsLiveData().observe(this, products ->
+                setMostViewProductsAdapter());
 
-        mMainViewModel.getMostPointsProductsLiveData().observe(this, products -> {
-            setMostPointsProductsAdapter();
-        });
+        mMainViewModel.getMostPointsProductsLiveData().observe(this, products ->
+                setMostPointsProductsAdapter());
 
         mMainViewModel.getSelectedProductLiveData().observe(this, product -> {
-            ProductFragment fragment=ProductFragment.newInstance(product.getId());
+            ProductFragment fragment = ProductFragment.newInstance(product.getId());
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container,fragment)
+                    .replace(R.id.fragment_container, fragment)
                     .commit();
         });
+
+        mMainViewModel.getSpecialProductsLiveData().observe(this, products ->
+                setSpecialProductAdapter());
     }
 
     @Override
@@ -76,9 +81,19 @@ public class MainPageFragment extends Fragment {
         mFragmentMainPageBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_main_page, container, false);
 
+        initProductSlider();
+
         setRecyclerViewLayoutManager();
 
         return mFragmentMainPageBinding.getRoot();
+    }
+
+    private void initProductSlider() {
+        mFragmentMainPageBinding.specialProductSlider
+                .setIndicatorAnimation(IndicatorAnimationType.WORM);
+        mFragmentMainPageBinding.specialProductSlider
+                .setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        mFragmentMainPageBinding.specialProductSlider.startAutoCycle();
     }
 
     private void setRecyclerViewLayoutManager() {
@@ -99,12 +114,6 @@ public class MainPageFragment extends Fragment {
                         requireContext(),
                         RecyclerView.HORIZONTAL,
                         true));
-        /*mFragmentMainPageBinding.listMostPointsProduct.setLayoutManager(
-                new GridLayoutManager(
-                        requireContext(),
-                        3,
-                        RecyclerView.HORIZONTAL,
-                        true));*/
     }
 
     private void setLastProductsAdapter() {
@@ -131,6 +140,16 @@ public class MainPageFragment extends Fragment {
             mFragmentMainPageBinding.listMostViewProduct.setAdapter(mMostViewProductAdapter);
         } else {
             mMostViewProductAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setSpecialProductAdapter() {
+        if (mSpecialProductAdapter == null) {
+            mSpecialProductAdapter = new ListSpecialProductAdapter(mMainViewModel);
+            mFragmentMainPageBinding.specialProductSlider
+                    .setSliderAdapter(mSpecialProductAdapter);
+        } else {
+            mSpecialProductAdapter.notifyDataSetChanged();
         }
     }
 }

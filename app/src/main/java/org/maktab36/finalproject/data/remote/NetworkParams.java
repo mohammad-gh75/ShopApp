@@ -34,4 +34,11 @@ public class NetworkParams {
             put("orderby","rating");
         }};
     }
+
+    public static Map<String, String> getSpecialProductsOptions(){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("tag","48");
+        }};
+    }
 }

@@ -28,6 +28,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mLastProductsLiveData =new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostViewProductsLiveData =new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostPointsProductsLiveData =new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSpecialProductsLiveData =new MutableLiveData<>();
     private MutableLiveData<Product> mSelectedProductLiveData =new MutableLiveData<>();
 
     public static ProductRepository getInstance() {
@@ -62,6 +63,10 @@ public class ProductRepository {
 
     public MutableLiveData<Product> getSelectedProductLiveData() {
         return mSelectedProductLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getSpecialProductsLiveData() {
+        return mSpecialProductsLiveData;
     }
 
     public void fetchLastProductsLiveData() {
@@ -106,6 +111,23 @@ public class ProductRepository {
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 Log.d("tag", call.request().url().toString());
                 mMostPointsProductsLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.d("tag", t.toString(),t);
+            }
+        });
+    }
+
+    public void fetchSpecialProductsLiveData(){
+        Call<List<Product>> call =
+                mWoocommerceService.listProducts(NetworkParams.getSpecialProductsOptions());
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                Log.d("tag", call.request().url().toString());
+                mSpecialProductsLiveData.setValue(response.body());
             }
 
             @Override

@@ -56,9 +56,8 @@ public class ListLastProductAdapter extends
             super(rowProductBinding.getRoot());
             mRowProductBinding = rowProductBinding;
 
-            mRowProductBinding.getRoot().setOnClickListener(view -> {
-                mViewModel.onProductSelectedLiveData(mProduct);
-            });
+            mRowProductBinding.getRoot().setOnClickListener(view ->
+                    mViewModel.onProductSelectedLiveData(mProduct));
 
         }
 
