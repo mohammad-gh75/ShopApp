@@ -66,7 +66,7 @@ public class ListMostPointsProductAdapter extends
 
         public void bindProduct(int position) {
             if(position==mViewModel.getMostPointsProducts().size()-1){
-                mRowProductBinding.divider.setVisibility(View.GONE);
+//                mRowProductBinding.divider.setVisibility(View.GONE);
             }
             mProduct = mViewModel.getMostPointsProducts().get(position);
             mRowProductBinding.textViewProductName.setText(mProduct.getName());
