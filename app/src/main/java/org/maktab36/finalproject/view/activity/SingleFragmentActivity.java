@@ -32,6 +32,7 @@ import com.squareup.picasso.Target;
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.databinding.ActivitySingleFragmentBinding;
 import org.maktab36.finalproject.databinding.DrawerLayoutBinding;
+import org.maktab36.finalproject.view.fragment.CartFragment;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,8 +46,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.drawer_layout);
-        toggle=new ActionBarDrawerToggle(
-                this,mBinding.drawerLayout,R.string.drawer_open,R.string.drawer_close);
+        toggle = new ActionBarDrawerToggle(
+                this, mBinding.drawerLayout, R.string.drawer_open, R.string.drawer_close);
 
         mBinding.drawerLayout.addDrawerListener(toggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,9 +66,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
         createNavigationMenu();
     }
 
-    private void createNavigationMenu(){
-        Menu menu=mBinding.navView.getMenu();
-        MenuItem item=menu.add("1");
+    private void createNavigationMenu() {
+        Menu menu = mBinding.navView.getMenu();
+        MenuItem item = menu.add("1");
 //        item.setIcon(R.drawable.ic_image);
 
         Picasso.get()
@@ -77,12 +78,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         Log.d("reza", "onBitmapLoaded: ");
-                        item.setIcon(new BitmapDrawable(getResources(),bitmap));
+                        item.setIcon(new BitmapDrawable(getResources(), bitmap));
                     }
 
                     @Override
                     public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                        Log.d("reza", e.toString(),e);
+                        Log.d("reza", e.toString(), e);
                     }
 
                     @Override
@@ -118,11 +119,33 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_bar_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(toggle.onOptionsItemSelected(item)){
+        if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.menu_item_account:
+                return true;
+            case R.id.menu_item_cart:
+                Log.d("reza", "onOptionsItemSelected: ");
+                Fragment fragment= CartFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container,fragment)
+                        .commit();
+                return true;
+            case R.id.menu_item_search:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -134,12 +157,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if(mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             mBinding.drawerLayout.closeDrawer(GravityCompat.START);
-        }else if(getSupportFragmentManager().getBackStackEntryCount()>0){
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 //            getSupportFragmentManager().popBackStackImmediate("MainPageFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
 //            getSupportFragmentManager().popBackStackImmediate();
-        }else{
+        } else {
             super.onBackPressed();
         }
     }

@@ -31,10 +31,10 @@ public class ProductListDeserializer implements JsonDeserializer<List<Product>> 
             String price = productObject.get("price").getAsString();
 //            String linkPath = getProductLink(productObject);
             List<String> imagesUrl = getProductImagesUrl(productObject);
-            float rate=Float.parseFloat(productObject.get("average_rating").getAsString()) ;
+            float rate = Float.parseFloat(productObject.get("average_rating").getAsString());
 
             Product product =
-                    new Product(id, name, description, price/*, linkPath*/, imagesUrl,rate);
+                    new Product(id, name, description, price/*, linkPath*/, imagesUrl, rate);
             products.add(product);
         }
         return products;

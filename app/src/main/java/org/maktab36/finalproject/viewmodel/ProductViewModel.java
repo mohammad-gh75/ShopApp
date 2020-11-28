@@ -1,6 +1,9 @@
 package org.maktab36.finalproject.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -36,9 +39,8 @@ public class ProductViewModel extends AndroidViewModel {
         return product == null ? new Product() : product;
     }
 
-
-
-
-
+    public void addToCart(){
+        mRepository.addToCart(getSelectedProduct().getId());
+    }
 
 }

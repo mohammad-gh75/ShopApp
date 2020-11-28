@@ -19,5 +19,4 @@ public class MainPageActivity extends SingleFragmentActivity {
     public Fragment createFragment() {
         return MainPageFragment.newInstance();
     }
-
 }

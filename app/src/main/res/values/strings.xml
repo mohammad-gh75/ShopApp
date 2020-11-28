@@ -6,9 +6,21 @@
     <string name="most_view_product">پر بازدید ترین محصولات</string>
     <string name="product_description">توضيحات محصول</string>
     <string name="description_product_image">product image</string>
+    <string name="button_add_to_cart">افزودن به سبد خرید</string>
+    <string name="button_continue_cart">ادامه فرآیند خرید</string>
 
     <string name="drawer_close">close</string>
     <string name="drawer_open">open</string>
 
     <string name="product_price">%1$s تومان</string>
+    <string name="number_of_cart_product">%1$d كالا</string>
+    <string name="menu_item_account">Account</string>
+    <string name="menu_item_cart">Cart</string>
+    <string name="menu_item_search">Search</string>
+    <string name="sum_price">مجموع</string>
+    <string name="cart_summaries">خلاصه سبد</string>
+    <string name="text_view_cart_products_price">قیمت کالاها</string>
+    <string name="text_view_cart_sum_reduction">تخفیف کالاها</string>
+    <string name="text_view_cart_sum_price">جمع سبد خرید</string>
+
 </resources>

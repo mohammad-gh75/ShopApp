@@ -11,6 +11,7 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -18,6 +19,7 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.adapters.ListProductImageAdapter;
 import org.maktab36.finalproject.databinding.FragmentProductBinding;
+import org.maktab36.finalproject.utils.StringUtils;
 import org.maktab36.finalproject.viewmodel.ProductViewModel;
 
 import java.util.Locale;
@@ -28,6 +30,7 @@ public class ProductFragment extends Fragment {
     private FragmentProductBinding mProductBinding;
     private ListProductImageAdapter mImageAdapter;
     private ProductViewModel mProductViewModel;
+    private int mProductId;
     public static final String ARG_PRODUCT_ID = "productId";
 
     public ProductFragment() {
@@ -46,12 +49,12 @@ public class ProductFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int id=getArguments().getInt(ARG_PRODUCT_ID);
+        mProductId=getArguments().getInt(ARG_PRODUCT_ID);
         mProductViewModel=new ViewModelProvider(this).get(ProductViewModel.class);
         mProductViewModel.getSelectedProductLiveData().observe(this,product -> {
             setAdapter();
         });
-        mProductViewModel.fetchSelectedProductLiveData(id);
+        mProductViewModel.fetchSelectedProductLiveData(mProductId);
     }
 
     @Override
@@ -61,6 +64,7 @@ public class ProductFragment extends Fragment {
                 .inflate(inflater,R.layout.fragment_product,container,false);
 
         initUI();
+        setListener();
 
         return mProductBinding.getRoot();
     }
@@ -71,20 +75,18 @@ public class ProductFragment extends Fragment {
         mProductBinding.textViewProductPrice
                 .setText(getString(
                         R.string.product_price,
-                        getFormattedPrice()));
+                        StringUtils.getFormattedPrice(
+                                mProductViewModel.getSelectedProduct().getPrice())));
         mProductBinding.ratingBar.setRating(mProductViewModel.getSelectedProduct().getRate());
-        mProductBinding.textViewProductDescription.setText(getProductDescription());
+        mProductBinding.textViewProductDescription.setText(
+                StringUtils.getProductDescription(
+                        mProductViewModel.getSelectedProduct().getDescription()));
     }
 
-    private String getFormattedPrice(){
-        String price = mProductViewModel.getSelectedProduct().getPrice();
-        return String.format(new Locale("fa"),"%,d",Long.parseLong(price));
-    }
-
-    private String getProductDescription() {
-        String description=
-                Html.fromHtml(mProductViewModel.getSelectedProduct().getDescription()).toString();
-        return description.replace(":"," :");
+    private void setListener(){
+        mProductBinding.buttonAddToCart.setOnClickListener(view -> {
+            mProductViewModel.addToCart();
+        });
     }
 
     private void setAdapter() {
