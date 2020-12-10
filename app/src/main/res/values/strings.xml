@@ -22,5 +22,10 @@
     <string name="text_view_cart_products_price">قیمت کالاها</string>
     <string name="text_view_cart_sum_reduction">تخفیف کالاها</string>
     <string name="text_view_cart_sum_price">جمع سبد خرید</string>
+    <string name="login_text">برای ورود یا ثبت نام اطلاعات خود را وارد نمایید.</string>
+    <string name="login_username">username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">ورود یا ثبت نام</string>
+    <string name="toast_add_to_cart">محصول به سبد خرید افزوده شد</string>
 
 </resources>

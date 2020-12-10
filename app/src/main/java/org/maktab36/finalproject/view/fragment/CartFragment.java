@@ -38,8 +38,11 @@ public class CartFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCartViewModel=new ViewModelProvider(this).get(CartViewModel.class);
+        mCartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         mCartViewModel.getCartProductsLiveData().observe(this, products -> {
+            if(products.size()!=0){
+                mCartBinding.continueCartLayout.setVisibility(View.VISIBLE);
+            }
             setAdapter();
             updateUI();
         });
@@ -52,6 +55,13 @@ public class CartFragment extends Fragment {
         mCartBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_cart, container, false);
 
+        setLayoutManager();
+        setListeners();
+
+        return mCartBinding.getRoot();
+    }
+
+    private void setLayoutManager() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity()) {
             @Override
             public boolean canScrollVertically() {
@@ -60,8 +70,6 @@ public class CartFragment extends Fragment {
         };
         mCartBinding.recyclerViewCartProducts
                 .setLayoutManager(layoutManager);
-
-        return mCartBinding.getRoot();
     }
 
     private void updateUI() {
@@ -86,11 +94,21 @@ public class CartFragment extends Fragment {
                         mCartViewModel.getCartProducts().size()));
     }
 
+    private void setListeners() {
+        mCartBinding.buttonContinueCart.setOnClickListener(view -> {
+            LoginFragment fragment = LoginFragment.newInstance();
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+        });
+    }
+
     private void setAdapter() {
-        if(mCartProductAdapter==null){
-            mCartProductAdapter=new ListCartProductAdapter(mCartViewModel);
+        if (mCartProductAdapter == null) {
+            mCartProductAdapter = new ListCartProductAdapter(mCartViewModel);
             mCartBinding.recyclerViewCartProducts.setAdapter(mCartProductAdapter);
-        }else{
+        } else {
             mCartProductAdapter.notifyDataSetChanged();
         }
     }

@@ -35,7 +35,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mSpecialProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mSelectedProductLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mCartProductsLiveData=new MutableLiveData<>();
-    private List<Integer> mCartProductsId;
+    private List<Integer> mCartProductsId =new ArrayList<>();
 
     public static ProductRepository getInstance() {
         if (sInstance == null) {
@@ -86,9 +86,6 @@ public class ProductRepository {
     }
 
     public void addToCart(int id){
-        if(mCartProductsId==null){
-            mCartProductsId=new ArrayList<>();
-        }
         mCartProductsId.add(id);
     }
 

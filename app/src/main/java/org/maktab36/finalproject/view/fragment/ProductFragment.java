@@ -86,6 +86,10 @@ public class ProductFragment extends Fragment {
     private void setListener(){
         mProductBinding.buttonAddToCart.setOnClickListener(view -> {
             mProductViewModel.addToCart();
+            Toast.makeText(
+                    requireActivity(),
+                    getString(R.string.toast_add_to_cart),
+                    Toast.LENGTH_SHORT).show();
         });
     }
 

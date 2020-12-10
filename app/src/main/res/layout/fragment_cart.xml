@@ -161,9 +161,11 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/continue_cart_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6">
+            android:layout_weight="6"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/button_continue_cart"
