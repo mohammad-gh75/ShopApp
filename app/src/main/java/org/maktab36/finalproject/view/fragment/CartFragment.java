@@ -40,7 +40,7 @@ public class CartFragment extends Fragment {
 
         mCartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         mCartViewModel.getCartProductsLiveData().observe(this, products -> {
-            if(products.size()!=0){
+            if (products.size() != 0) {
                 mCartBinding.continueCartLayout.setVisibility(View.VISIBLE);
             }
             setAdapter();

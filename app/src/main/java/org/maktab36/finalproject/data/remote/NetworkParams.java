@@ -41,4 +41,11 @@ public class NetworkParams {
             put("tag","48");
         }};
     }
+
+    public static Map<String, String> getSearchProductsOptions(String query){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("search",query);
+        }};
+    }
 }

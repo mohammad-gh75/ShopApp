@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -140,8 +141,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
                         .beginTransaction()
                         .replace(R.id.fragment_container,fragment)
                         .commit();
-                return true;
-            case R.id.menu_item_search:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -6,10 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.data.repository.ProductRepository;
-import org.maktab36.finalproject.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +37,20 @@ public class CartViewModel extends AndroidViewModel {
 
     public String getProductsSumPrice() {
         int sumPrice = 0;
-        for (Product product:getCartProducts()) {
-            sumPrice+=Integer.parseInt(product.getPrice());
+        for (Product product : getCartProducts()) {
+            sumPrice += Integer.parseInt(product.getPrice());
         }
         return String.valueOf(sumPrice);
     }
 
-    public String getProductsSumReduction(){
+    public String getProductsSumReduction() {
         return String.valueOf(0);
     }
 
-    public String getCartSumPrice(){
-        int cartSumPrice=
+    public String getCartSumPrice() {
+        int cartSumPrice =
                 Integer.parseInt(getProductsSumPrice())
-                        -Integer.parseInt(getProductsSumReduction());
+                        - Integer.parseInt(getProductsSumReduction());
         return String.valueOf(cartSumPrice);
     }
 }

@@ -34,8 +34,9 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mMostPointsProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSpecialProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<Product> mSelectedProductLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<Product>> mCartProductsLiveData=new MutableLiveData<>();
-    private List<Integer> mCartProductsId =new ArrayList<>();
+    private MutableLiveData<List<Product>> mCartProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>> mSearchProductsLiveData = new MutableLiveData<>();
+    private List<Integer> mCartProductsId = new ArrayList<>();
 
     public static ProductRepository getInstance() {
         if (sInstance == null) {
@@ -45,14 +46,16 @@ public class ProductRepository {
     }
 
     private ProductRepository() {
-        Type typeProductList = new TypeToken<List<Product>>() {}.getType();
+        Type typeProductList = new TypeToken<List<Product>>() {
+        }.getType();
         Object typeAdapterProductList = new ProductListDeserializer();
 
-        Type typeProduct = new TypeToken<Product>() {}.getType();
+        Type typeProduct = new TypeToken<Product>() {
+        }.getType();
         Object typeAdapterProduct = new ProductDeserializer();
 
-        Retrofit retrofitProductList = RetrofitInstance.getInstance(typeProductList,typeAdapterProductList);
-        Retrofit retrofitProduct = RetrofitInstance.getInstance(typeProduct,typeAdapterProduct);
+        Retrofit retrofitProductList = RetrofitInstance.getInstance(typeProductList, typeAdapterProductList);
+        Retrofit retrofitProduct = RetrofitInstance.getInstance(typeProduct, typeAdapterProduct);
         mWoocommerceServiceProductList = retrofitProductList.create(WoocommerceService.class);
         mWoocommerceServiceProduct = retrofitProduct.create(WoocommerceService.class);
     }
@@ -77,15 +80,20 @@ public class ProductRepository {
     public MutableLiveData<List<Product>> getSpecialProductsLiveData() {
         return mSpecialProductsLiveData;
     }
+
     public MutableLiveData<List<Product>> getCartProductsLiveData() {
         return mCartProductsLiveData;
+    }
+
+    public MutableLiveData<List<Product>> getSearchProductsLiveData() {
+        return mSearchProductsLiveData;
     }
 
     public List<Integer> getCartProductsId() {
         return mCartProductsId;
     }
 
-    public void addToCart(int id){
+    public void addToCart(int id) {
         mCartProductsId.add(id);
     }
 
@@ -181,15 +189,15 @@ public class ProductRepository {
     }
 
     public void fetchCartProductLiveData() {
-        List<Product> products=new ArrayList<>();
-        for (int id:mCartProductsId) {
+        List<Product> products = new ArrayList<>();
+        for (int id : mCartProductsId) {
             Call<Product> call = mWoocommerceServiceProduct.getProduct(
                     id,
                     NetworkParams.getBaseOptions());
             call.enqueue(new Callback<Product>() {
                 @Override
                 public void onResponse(Call<Product> call, Response<Product> response) {
-                    Log.d("reza", "onResponse: "+response.body().getName());
+                    Log.d("reza", "onResponse: " + response.body().getName());
                     products.add(response.body());
                     mCartProductsLiveData.setValue(products);
                 }
@@ -200,5 +208,23 @@ public class ProductRepository {
                 }
             });
         }
+    }
+
+    public void fetchSearchProductsLiveData(String query) {
+        Call<List<Product>> call =
+                mWoocommerceServiceProductList
+                        .listProducts(NetworkParams.getSearchProductsOptions(query));
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                mSearchProductsLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.d("reza", t.toString(), t);
+            }
+        });
     }
 }
