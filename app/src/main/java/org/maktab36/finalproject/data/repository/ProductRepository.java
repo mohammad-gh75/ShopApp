@@ -1,20 +1,20 @@
 package org.maktab36.finalproject.data.repository;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.reflect.TypeToken;
 
+import org.maktab36.finalproject.data.model.Categories;
 import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.data.remote.NetworkParams;
+import org.maktab36.finalproject.data.remote.retrofit.CategoriesDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.ProductDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.ProductListDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.RetrofitInstance;
 import org.maktab36.finalproject.data.remote.retrofit.WoocommerceService;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ public class ProductRepository {
     public static ProductRepository sInstance;
     private WoocommerceService mWoocommerceServiceProductList;
     private WoocommerceService mWoocommerceServiceProduct;
+    private WoocommerceService mWoocommerceServiceCategories;
     private MutableLiveData<List<Product>> mLastProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostViewProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostPointsProductsLiveData = new MutableLiveData<>();
@@ -36,6 +37,7 @@ public class ProductRepository {
     private MutableLiveData<Product> mSelectedProductLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mCartProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSearchProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Categories>> mProductCategoriesLiveData = new MutableLiveData<>();
     private List<Integer> mCartProductsId = new ArrayList<>();
 
     public static ProductRepository getInstance() {
@@ -54,10 +56,19 @@ public class ProductRepository {
         }.getType();
         Object typeAdapterProduct = new ProductDeserializer();
 
-        Retrofit retrofitProductList = RetrofitInstance.getInstance(typeProductList, typeAdapterProductList);
-        Retrofit retrofitProduct = RetrofitInstance.getInstance(typeProduct, typeAdapterProduct);
+        Type typeCategories = new TypeToken<List<Categories>>() {
+        }.getType();
+        Object typeAdapterCategories = new CategoriesDeserializer();
+
+        Retrofit retrofitProductList = RetrofitInstance
+                .getInstance(typeProductList, typeAdapterProductList);
+        Retrofit retrofitProduct = RetrofitInstance
+                .getInstance(typeProduct, typeAdapterProduct);
+        Retrofit retrofitCategories = RetrofitInstance
+                .getInstance(typeCategories, typeAdapterCategories);
         mWoocommerceServiceProductList = retrofitProductList.create(WoocommerceService.class);
         mWoocommerceServiceProduct = retrofitProduct.create(WoocommerceService.class);
+        mWoocommerceServiceCategories=retrofitCategories.create(WoocommerceService.class);
     }
 
 
@@ -87,6 +98,10 @@ public class ProductRepository {
 
     public MutableLiveData<List<Product>> getSearchProductsLiveData() {
         return mSearchProductsLiveData;
+    }
+
+    public MutableLiveData<List<Categories>> getProductCategoriesLiveData() {
+        return mProductCategoriesLiveData;
     }
 
     public List<Integer> getCartProductsId() {
@@ -210,7 +225,7 @@ public class ProductRepository {
         }
     }
 
-    public void fetchSearchProductsLiveData(String query,String orderBy,String order) {
+    public void fetchSearchProductsLiveData(String query, String orderBy, String order) {
         Call<List<Product>> call =
                 mWoocommerceServiceProductList
                         .listProducts(NetworkParams.getSearchProductsOptions(
@@ -227,6 +242,23 @@ public class ProductRepository {
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.d("reza", t.toString(), t);
+            }
+        });
+    }
+
+    public void fetchProductCategoriesLiveData(){
+        Call<List<Categories>> call=
+                mWoocommerceServiceCategories
+                        .getCategories(NetworkParams.getCategoriesOptions());
+        call.enqueue(new Callback<List<Categories>>() {
+            @Override
+            public void onResponse(Call<List<Categories>> call, Response<List<Categories>> response) {
+                mProductCategoriesLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Categories>> call, Throwable t) {
+                Log.d("reza", t.toString(),t);
             }
         });
     }

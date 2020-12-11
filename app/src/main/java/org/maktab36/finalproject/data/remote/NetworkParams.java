@@ -51,4 +51,11 @@ public class NetworkParams {
             put("order",order);
         }};
     }
+
+    public static Map<String, String> getCategoriesOptions(){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("per_page","30");
+        }};
+    }
 }

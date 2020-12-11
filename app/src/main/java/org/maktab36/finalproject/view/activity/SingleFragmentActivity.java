@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
@@ -31,9 +33,11 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import org.maktab36.finalproject.R;
+import org.maktab36.finalproject.data.model.Categories;
 import org.maktab36.finalproject.databinding.ActivitySingleFragmentBinding;
 import org.maktab36.finalproject.databinding.DrawerLayoutBinding;
 import org.maktab36.finalproject.view.fragment.CartFragment;
+import org.maktab36.finalproject.viewmodel.NavMenuViewModel;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,6 +46,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
 
     private DrawerLayoutBinding mBinding;
     private ActionBarDrawerToggle toggle;
+    private NavMenuViewModel mMenuViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +68,52 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
                     .addToBackStack("MainPageFragment")
                     .commit();
         }
-
-        createNavigationMenu();
+        mMenuViewModel=new ViewModelProvider(this).get(NavMenuViewModel.class);
+        mMenuViewModel.getProductCategoriesLiveData().observe(this,categories -> {
+            createNavigationMenu();
+        });
+        mMenuViewModel.fetchProductCategoriesLiveData();
     }
 
     private void createNavigationMenu() {
         Menu menu = mBinding.navView.getMenu();
-        MenuItem item = menu.add("1");
-//        item.setIcon(R.drawable.ic_image);
+        MenuItem i1=menu.add("k,co;d");
+        for (Categories category:mMenuViewModel.getHeadingCategories()) {
+            SubMenu subMenu =menu.addSubMenu(category.getName());
+            setSubMenuIcon(subMenu,category.getImageUrl());
 
+            for (Categories subCategory:mMenuViewModel.getSubCategories(category.getId())) {
+                MenuItem subItem = subMenu.add(subCategory.getName());
+                setMenuItemIcon(subItem,subCategory.getImageUrl());
+            }
+        }
+    }
+    private void setSubMenuIcon(SubMenu subMenu,String url) {
         Picasso.get()
-                .load("https://woocommerce.maktabsharif.ir/wp-content/uploads/2019/12/suit.png")
+                .load(url)
+                .placeholder(R.drawable.ic_image)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        Log.d("reza", "onBitmapLoaded: ");
+                        subMenu.setHeaderIcon(new BitmapDrawable(getResources(), bitmap));
+                        subMenu.setIcon(new BitmapDrawable(getResources(), bitmap));
+                    }
+                    @Override
+                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                        Log.d("reza", e.toString(), e);
+                    }
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        Log.d("reza", "onPrepareLoad: ");
+                        subMenu.setHeaderIcon(placeHolderDrawable);
+                        subMenu.setIcon(placeHolderDrawable);
+                    }
+                });
+    }
+    private void setMenuItemIcon(MenuItem item,String url){
+        Picasso.get()
+                .load(url)
                 .placeholder(R.drawable.ic_image)
                 .into(new Target() {
                     @Override
@@ -81,30 +121,16 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
                         Log.d("reza", "onBitmapLoaded: ");
                         item.setIcon(new BitmapDrawable(getResources(), bitmap));
                     }
-
                     @Override
                     public void onBitmapFailed(Exception e, Drawable errorDrawable) {
                         Log.d("reza", e.toString(), e);
                     }
-
                     @Override
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
                         Log.d("reza", "onPrepareLoad: ");
                         item.setIcon(placeHolderDrawable);
                     }
                 });
-
-
-        /*Glide.with(this)
-                .asBitmap()
-                .load("https://woocommerce.maktabsharif.ir/wp-content/uploads/2019/12/suit.png")
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Log.d("reza", "onResourceReady: ");
-                        menu.getItem(0).setIcon(new BitmapDrawable(getResources(),resource));
-                    }
-                });*/
     }
 
     @Override
