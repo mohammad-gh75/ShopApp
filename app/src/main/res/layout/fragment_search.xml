@@ -8,6 +8,43 @@
         android:layout_height="match_parent"
         tools:context=".view.fragment.SearchFragment">
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/search_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabGravity="center"
+            app:tabIndicatorGravity="bottom"
+            app:tabInlineLabel="false"
+            app:tabMode="scrollable">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/sort_most_sale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_most_sale" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/sort_most_expensive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_most_expensive" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/sort_most_cheap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_most_cheap" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/sort_most_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_most_new" />
+        </com.google.android.material.tabs.TabLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_search_product"
             android:layout_width="0dp"
@@ -15,6 +52,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/search_sort" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

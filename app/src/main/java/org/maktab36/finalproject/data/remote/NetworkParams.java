@@ -42,10 +42,13 @@ public class NetworkParams {
         }};
     }
 
-    public static Map<String, String> getSearchProductsOptions(String query){
+    public static Map<String, String> getSearchProductsOptions(
+            String query,String orderBy,String order) {
         return new HashMap<String,String>(){{
             putAll(BASE_OPTIONS);
             put("search",query);
+            put("orderby",orderBy);
+            put("order",order);
         }};
     }
 }

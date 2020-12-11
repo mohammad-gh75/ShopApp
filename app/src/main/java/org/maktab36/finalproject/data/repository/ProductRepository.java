@@ -210,10 +210,13 @@ public class ProductRepository {
         }
     }
 
-    public void fetchSearchProductsLiveData(String query) {
+    public void fetchSearchProductsLiveData(String query,String orderBy,String order) {
         Call<List<Product>> call =
                 mWoocommerceServiceProductList
-                        .listProducts(NetworkParams.getSearchProductsOptions(query));
+                        .listProducts(NetworkParams.getSearchProductsOptions(
+                                query,
+                                orderBy,
+                                order));
 
         call.enqueue(new Callback<List<Product>>() {
             @Override

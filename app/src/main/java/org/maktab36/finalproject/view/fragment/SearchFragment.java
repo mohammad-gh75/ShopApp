@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.adapters.ListSearchProductAdapter;
 import org.maktab36.finalproject.databinding.FragmentSearchBinding;
@@ -45,7 +47,10 @@ public class SearchFragment extends Fragment {
             mQuery=getArguments().getString(ARG_QUERY);
         }
         mSearchViewModel=new ViewModelProvider(this).get(SearchViewModel.class);
-        mSearchViewModel.getSearchProductsLiveData().observe(this,products -> setAdapter());
+        mSearchViewModel.getSearchProductsLiveData().observe(this,products -> {
+            setAdapter();
+            setListeners();
+        });
         mSearchViewModel.getSelectedProductLiveData().observe(this,product ->{
             ProductFragment fragment = ProductFragment.newInstance(product.getId());
             requireActivity().getSupportFragmentManager()
@@ -53,7 +58,7 @@ public class SearchFragment extends Fragment {
                     .replace(R.id.fragment_container, fragment)
                     .commit();
         });
-        mSearchViewModel.fetchSearchProductsLiveData(mQuery);
+        mSearchViewModel.fetchSearchProductsLiveData(mQuery,"popularity","desc");
     }
 
     @Override
@@ -75,5 +80,39 @@ public class SearchFragment extends Fragment {
         }else{
             mSearchProductAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void setListeners() {
+        mSearchBinding.searchSort.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch(tab.getPosition()){
+                    case 0:
+                        mSearchViewModel.fetchSearchProductsLiveData(
+                                mQuery,"popularity","desc");
+                        break;
+                    case 1:
+                        mSearchViewModel.fetchSearchProductsLiveData(
+                                mQuery,"price","desc");
+                        break;
+                    case 2:
+                        mSearchViewModel.fetchSearchProductsLiveData(
+                                mQuery,"price","asc");
+                        break;
+                    case 3:
+                        mSearchViewModel.fetchSearchProductsLiveData(
+                                mQuery,"date","desc");
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
 }

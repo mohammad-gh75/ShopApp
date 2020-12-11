@@ -34,8 +34,8 @@ public class SearchViewModel extends AndroidViewModel {
         return mSelectedProductLiveData;
     }
 
-    public void fetchSearchProductsLiveData(String query) {
-        mRepository.fetchSearchProductsLiveData(query);
+    public void fetchSearchProductsLiveData(String query,String orderBy,String order) {
+        mRepository.fetchSearchProductsLiveData(query,orderBy,order);
     }
 
     public List<Product> getSearchProducts() {

@@ -29,5 +29,9 @@
     <string name="toast_add_to_cart">محصول به سبد خرید افزوده شد</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sort_most_sale">پرفروش ترین</string>
+    <string name="sort_most_expensive">گران ترین</string>
+    <string name="sort_most_cheap">ارزان ترین</string>
+    <string name="sort_most_new">جدید ترین</string>
 
 </resources>
