@@ -98,5 +98,4 @@ public class MainViewModel extends AndroidViewModel {
     public void onProductSelectedLiveData(Product product) {
         mSelectedProductLiveData.setValue(product);
     }
-
 }

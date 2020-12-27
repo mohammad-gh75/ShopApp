@@ -37,6 +37,7 @@ import org.maktab36.finalproject.data.model.Categories;
 import org.maktab36.finalproject.databinding.ActivitySingleFragmentBinding;
 import org.maktab36.finalproject.databinding.DrawerLayoutBinding;
 import org.maktab36.finalproject.view.fragment.CartFragment;
+import org.maktab36.finalproject.view.fragment.CategoryProductsFragment;
 import org.maktab36.finalproject.viewmodel.NavMenuViewModel;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity
@@ -77,18 +78,33 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
 
     private void createNavigationMenu() {
         Menu menu = mBinding.navView.getMenu();
-        MenuItem i1=menu.add("k,co;d");
         for (Categories category:mMenuViewModel.getHeadingCategories()) {
             SubMenu subMenu =menu.addSubMenu(category.getName());
-            setSubMenuIcon(subMenu,category.getImageUrl());
+            MenuItem item = subMenu.add(getString(R.string.all_category_product));
+            setMenuItemIcon(item,category.getImageUrl());
+            setMenuItemListener(item,category.getId());
 
             for (Categories subCategory:mMenuViewModel.getSubCategories(category.getId())) {
                 MenuItem subItem = subMenu.add(subCategory.getName());
                 setMenuItemIcon(subItem,subCategory.getImageUrl());
+                setMenuItemListener(subItem,subCategory.getId());
             }
         }
     }
-    private void setSubMenuIcon(SubMenu subMenu,String url) {
+    private void setMenuItemListener(MenuItem item,int categoryId){
+        item.setOnMenuItemClickListener(item1 -> {
+            mBinding.drawerLayout.closeDrawer(GravityCompat.START);
+            CategoryProductsFragment fragment=
+                    CategoryProductsFragment.newInstance(categoryId);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container,fragment)
+                    .addToBackStack("CategoryProductFragment")
+                    .commit();
+            return true;
+        });
+    }
+    /*private void setSubMenuIcon(SubMenu subMenu,String url) {
         Picasso.get()
                 .load(url)
                 .placeholder(R.drawable.ic_image)
@@ -110,7 +126,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
                         subMenu.setIcon(placeHolderDrawable);
                     }
                 });
-    }
+    }*/
     private void setMenuItemIcon(MenuItem item,String url){
         Picasso.get()
                 .load(url)
@@ -166,6 +182,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container,fragment)
+                        .addToBackStack("CartFragment")
                         .commit();
                 return true;
             default:
@@ -182,11 +199,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        FragmentManager fragmentManager=getSupportFragmentManager();
         if (mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             mBinding.drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-//            getSupportFragmentManager().popBackStackImmediate("MainPageFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//            getSupportFragmentManager().popBackStackImmediate();
+        } else if (fragmentManager.getBackStackEntryCount() > 0) {
+
+//            fragmentManager.popBackStackImmediate("MainPageFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManager.popBackStackImmediate();
         } else {
             super.onBackPressed();
         }

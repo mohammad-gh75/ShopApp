@@ -100,6 +100,7 @@ public class CartFragment extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
+                    .addToBackStack("LoginFragment")
                     .commit();
         });
     }

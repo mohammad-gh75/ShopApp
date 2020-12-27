@@ -72,10 +72,12 @@ public class MainPageFragment extends Fragment {
                 setMostPointsProductsAdapter());
 
         mMainViewModel.getSelectedProductLiveData().observe(this, product -> {
+            Log.d("reza2", "registerObservers: ");
             ProductFragment fragment = ProductFragment.newInstance(product.getId());
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
+                    .addToBackStack("ProductFragment")
                     .commit();
         });
 
@@ -170,10 +172,12 @@ public class MainPageFragment extends Fragment {
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
+                        searchView.setIconified(true);
                         SearchFragment fragment=SearchFragment.newInstance(query);
                         requireActivity().getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.fragment_container,fragment)
+                                .addToBackStack("SearchFragment")
                                 .commit();
                         return true;
                     }
