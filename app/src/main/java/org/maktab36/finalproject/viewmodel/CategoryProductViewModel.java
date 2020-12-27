@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.data.repository.ProductRepository;
@@ -14,32 +13,32 @@ import org.maktab36.finalproject.data.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchViewModel extends AndroidViewModel {
+public class CategoryProductViewModel extends AndroidViewModel {
     private ProductRepository mRepository;
-    private LiveData<List<Product>> mSearchProductsLiveData;
+    private LiveData<List<Product>> mCategoryProductsLiveData;
     private MutableLiveData<Product> mSelectedProductLiveData;
 
-    public SearchViewModel(@NonNull Application application) {
+    public CategoryProductViewModel(@NonNull Application application) {
         super(application);
         mRepository = ProductRepository.getInstance();
-        mSearchProductsLiveData = mRepository.getSearchProductsLiveData();
+        mCategoryProductsLiveData = mRepository.getCategoryProductsLiveData();
         mSelectedProductLiveData = mRepository.getSelectedProductLiveData();
     }
 
-    public LiveData<List<Product>> getSearchProductsLiveData() {
-        return mSearchProductsLiveData;
+    public LiveData<List<Product>> getCategoryProductsLiveData() {
+        return mCategoryProductsLiveData;
     }
 
-    public LiveData<Product> getSelectedProductLiveData() {
+    public MutableLiveData<Product> getSelectedProductLiveData() {
         return mSelectedProductLiveData;
     }
 
-    public void fetchSearchProductsLiveData(String query,String orderBy,String order) {
-        mRepository.fetchSearchProductsLiveData(query,orderBy,order);
+    public void fetchCategoryProductsLiveData(int categoryId,String orderBy,String order) {
+        mRepository.fetchCategoryProductsLiveData(categoryId,orderBy,order);
     }
 
-    public List<Product> getSearchProducts() {
-        List<Product> products = mSearchProductsLiveData.getValue();
+    public List<Product> getCategoryProducts() {
+        List<Product> products = mCategoryProductsLiveData.getValue();
         return products == null ? new ArrayList<>() : products;
     }
 

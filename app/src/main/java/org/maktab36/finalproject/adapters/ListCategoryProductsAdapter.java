@@ -1,7 +1,7 @@
 package org.maktab36.finalproject.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,47 +14,45 @@ import org.maktab36.finalproject.R;
 import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.databinding.ListRowSearchAndCategoryProductBinding;
 import org.maktab36.finalproject.utils.StringUtils;
-import org.maktab36.finalproject.viewmodel.SearchViewModel;
+import org.maktab36.finalproject.viewmodel.CategoryProductViewModel;
 
-public class ListSearchProductAdapter
-        extends RecyclerView.Adapter<ListSearchProductAdapter.SearchViewHolder> {
+public class ListCategoryProductsAdapter
+        extends RecyclerView.Adapter<ListCategoryProductsAdapter.ProductHolder> {
 
-    private SearchViewModel mViewModel;
+    CategoryProductViewModel mViewModel;
 
-    public ListSearchProductAdapter(SearchViewModel viewModel) {
+    public ListCategoryProductsAdapter(CategoryProductViewModel viewModel) {
         mViewModel = viewModel;
     }
 
     @NonNull
     @Override
-    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ListRowSearchAndCategoryProductBinding rowSearchProductBinding =
+        ListRowSearchAndCategoryProductBinding rowCategoryProductBinding =
                 DataBindingUtil.inflate(
                         inflater,
                         R.layout.list_row_search_and_category_product,
                         parent,
                         false);
-        return new SearchViewHolder(rowSearchProductBinding);
-
+        return new ProductHolder(rowCategoryProductBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         holder.bindProduct(position);
     }
 
     @Override
     public int getItemCount() {
-        Log.d("reza", "getItemCount: " + mViewModel.getSearchProducts().size());
-        return mViewModel.getSearchProducts().size();
+        return mViewModel.getCategoryProducts().size();
     }
 
-    public class SearchViewHolder extends RecyclerView.ViewHolder {
+    public class ProductHolder extends RecyclerView.ViewHolder{
         private ListRowSearchAndCategoryProductBinding mProductBinding;
         private Product mProduct;
 
-        public SearchViewHolder(ListRowSearchAndCategoryProductBinding rowBinding) {
+        public ProductHolder(ListRowSearchAndCategoryProductBinding rowBinding) {
             super(rowBinding.getRoot());
             mProductBinding = rowBinding;
 
@@ -64,7 +62,7 @@ public class ListSearchProductAdapter
         }
 
         public void bindProduct(int position) {
-            mProduct = mViewModel.getSearchProducts().get(position);
+            mProduct = mViewModel.getCategoryProducts().get(position);
             mProductBinding.textViewProductName.setText(mProduct.getName());
             mProductBinding.textViewProductRate.setText(String.valueOf(mProduct.getRate()));
             mProductBinding.productPrice.setText(

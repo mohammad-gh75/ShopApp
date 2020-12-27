@@ -90,7 +90,7 @@ public class CartFragment extends Fragment {
                 StringUtils.getFormattedPrice(mCartViewModel.getCartSumPrice())
         ));
         mCartBinding.textViewCartProductNumber.setText(
-                getString(R.string.number_of_cart_product,
+                getString(R.string.number_of_products,
                         mCartViewModel.getCartProducts().size()));
     }
 

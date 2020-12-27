@@ -31,8 +31,9 @@ public class CategoriesDeserializer implements JsonDeserializer<List<Categories>
             String name = categoryObject.get("name").getAsString();
             int parentId = categoryObject.get("parent").getAsInt();
             String imageUrl = getCategoryImageUrl(categoryObject);
+            int count=categoryObject.get("count").getAsInt();
 
-            Categories categories=new Categories(id,name,parentId,imageUrl);
+            Categories categories=new Categories(id,name,parentId,imageUrl,count);
             categoryList.add(categories);
         }
         return categoryList;

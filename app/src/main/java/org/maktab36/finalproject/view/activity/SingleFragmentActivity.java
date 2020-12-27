@@ -82,20 +82,20 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
             SubMenu subMenu =menu.addSubMenu(category.getName());
             MenuItem item = subMenu.add(getString(R.string.all_category_product));
             setMenuItemIcon(item,category.getImageUrl());
-            setMenuItemListener(item,category.getId());
+            setMenuItemListener(item,category);
 
             for (Categories subCategory:mMenuViewModel.getSubCategories(category.getId())) {
                 MenuItem subItem = subMenu.add(subCategory.getName());
                 setMenuItemIcon(subItem,subCategory.getImageUrl());
-                setMenuItemListener(subItem,subCategory.getId());
+                setMenuItemListener(subItem,subCategory);
             }
         }
     }
-    private void setMenuItemListener(MenuItem item,int categoryId){
+    private void setMenuItemListener(MenuItem item,Categories category){
         item.setOnMenuItemClickListener(item1 -> {
             mBinding.drawerLayout.closeDrawer(GravityCompat.START);
             CategoryProductsFragment fragment=
-                    CategoryProductsFragment.newInstance(categoryId);
+                    CategoryProductsFragment.newInstance(category);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container,fragment)
@@ -104,29 +104,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
             return true;
         });
     }
-    /*private void setSubMenuIcon(SubMenu subMenu,String url) {
-        Picasso.get()
-                .load(url)
-                .placeholder(R.drawable.ic_image)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        Log.d("reza", "onBitmapLoaded: ");
-                        subMenu.setHeaderIcon(new BitmapDrawable(getResources(), bitmap));
-                        subMenu.setIcon(new BitmapDrawable(getResources(), bitmap));
-                    }
-                    @Override
-                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                        Log.d("reza", e.toString(), e);
-                    }
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        Log.d("reza", "onPrepareLoad: ");
-                        subMenu.setHeaderIcon(placeHolderDrawable);
-                        subMenu.setIcon(placeHolderDrawable);
-                    }
-                });
-    }*/
     private void setMenuItemIcon(MenuItem item,String url){
         Picasso.get()
                 .load(url)

@@ -5,6 +5,7 @@ public class Categories {
     private String name;
     private int parentId;
     private String imageUrl;
+    private int count;
 
     public int getId() {
         return id;
@@ -38,13 +39,22 @@ public class Categories {
         this.imageUrl = imageUrl;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public Categories() {
     }
 
-    public Categories(int id, String name, int parentId, String imageUrl) {
+    public Categories(int id, String name, int parentId, String imageUrl,int count) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
         this.imageUrl = imageUrl;
+        this.count = count;
     }
 }

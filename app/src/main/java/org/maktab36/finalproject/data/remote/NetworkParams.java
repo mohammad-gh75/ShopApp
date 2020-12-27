@@ -58,4 +58,15 @@ public class NetworkParams {
             put("per_page","30");
         }};
     }
+
+    public static Map<String, String> getCategoryProductsOptions(
+            int categoryId,String orderBy,String order){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("category",String.valueOf(categoryId));
+            put("orderby",orderBy);
+            put("order",order);
+            put("per_page","30");
+        }};
+    }
 }
