@@ -28,6 +28,7 @@ import org.maktab36.finalproject.adapters.ListMostPointsProductAdapter;
 import org.maktab36.finalproject.adapters.ListMostViewProductAdapter;
 import org.maktab36.finalproject.adapters.ListSpecialProductAdapter;
 import org.maktab36.finalproject.databinding.FragmentMainPageBinding;
+import org.maktab36.finalproject.utils.SharedPreferencesUtils;
 import org.maktab36.finalproject.viewmodel.MainViewModel;
 
 public class MainPageFragment extends Fragment {
@@ -59,11 +60,15 @@ public class MainPageFragment extends Fragment {
         registerObservers();
 
         mMainViewModel.fetchProductsLiveData();
+
+        mMainViewModel.setPollWorker(5);
     }
 
     private void registerObservers() {
-        mMainViewModel.getLastProductsLiveData().observe(this, products ->
-                setLastProductsAdapter());
+        mMainViewModel.getLastProductsLiveData().observe(this, products -> {
+            SharedPreferencesUtils.setLastResultId(getContext(),products.get(0).getId());
+            setLastProductsAdapter();
+        });
 
         mMainViewModel.getMostViewProductsLiveData().observe(this, products ->
                 setMostViewProductsAdapter());
@@ -166,17 +171,17 @@ public class MainPageFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menu_item_search:
                 SearchView searchView = (SearchView) item.getActionView();
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
                         searchView.setIconified(true);
-                        SearchFragment fragment=SearchFragment.newInstance(query);
+                        SearchFragment fragment = SearchFragment.newInstance(query);
                         requireActivity().getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.fragment_container,fragment)
+                                .replace(R.id.fragment_container, fragment)
                                 .addToBackStack("SearchFragment")
                                 .commit();
                         return true;

@@ -15,6 +15,7 @@ import org.maktab36.finalproject.data.remote.retrofit.ProductListDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.RetrofitInstance;
 import org.maktab36.finalproject.data.remote.retrofit.WoocommerceService;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -268,7 +269,7 @@ public class ProductRepository {
         });
     }
 
-    public void fetchCategoryProductsLiveData(int categoryId,String orderBy,String order) {
+    public void fetchCategoryProductsLiveData(int categoryId, String orderBy, String order) {
         Call<List<Product>> call =
                 mWoocommerceServiceProductList
                         .listProducts(NetworkParams.getCategoryProductsOptions(
@@ -288,5 +289,21 @@ public class ProductRepository {
                 Log.d("tag", t.toString(), t);
             }
         });
+    }
+
+    public List<Product> getLastProductsSync() {
+        Call<List<Product>> call = mWoocommerceServiceProductList
+                .listProducts(NetworkParams.getLastProductsOptions());
+        List<Product> products = new ArrayList<>();
+
+        try {
+            products = call.execute().body();
+        } catch (IOException e) {
+            Log.e("reza2", e.getMessage(), e);
+        }
+        /*finally {
+            return products;
+        }*/
+        return products;
     }
 }

@@ -1,5 +1,6 @@
 package org.maktab36.finalproject.view.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,10 +39,13 @@ import org.maktab36.finalproject.databinding.ActivitySingleFragmentBinding;
 import org.maktab36.finalproject.databinding.DrawerLayoutBinding;
 import org.maktab36.finalproject.view.fragment.CartFragment;
 import org.maktab36.finalproject.view.fragment.CategoryProductsFragment;
+import org.maktab36.finalproject.view.fragment.NotificationTimePickerFragment;
 import org.maktab36.finalproject.viewmodel.NavMenuViewModel;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String DIALOG_FRAGMENT_TAG ="dialogFragment";
 
     public abstract Fragment createFragment();
 
@@ -162,11 +166,19 @@ public abstract class SingleFragmentActivity extends AppCompatActivity
                         .addToBackStack("CartFragment")
                         .commit();
                 return true;
+            case R.id.menu_item_notification:
+                showDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void showDialog(){
+        NotificationTimePickerFragment timePickerFragment=
+                NotificationTimePickerFragment.newInstance();
+        timePickerFragment.show(getSupportFragmentManager(),DIALOG_FRAGMENT_TAG);
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

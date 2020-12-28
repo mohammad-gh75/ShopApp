@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.data.repository.ProductRepository;
+import org.maktab36.finalproject.worker.PollWorker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,5 +98,9 @@ public class MainViewModel extends AndroidViewModel {
 
     public void onProductSelectedLiveData(Product product) {
         mSelectedProductLiveData.setValue(product);
+    }
+
+    public void setPollWorker(int time) {
+        PollWorker.scheduleWork(getApplication(),time);
     }
 }
