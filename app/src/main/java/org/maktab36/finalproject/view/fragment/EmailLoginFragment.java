@@ -10,21 +10,21 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.maktab36.finalproject.R;
-import org.maktab36.finalproject.databinding.FragmentLoginBinding;
+import org.maktab36.finalproject.databinding.FragmentEmailLoginBinding;
 import org.maktab36.finalproject.viewmodel.LoginViewModel;
 
 
-public class LoginFragment extends Fragment {
+public class EmailLoginFragment extends Fragment {
 
-    private FragmentLoginBinding mLoginBinding;
+    private FragmentEmailLoginBinding mLoginBinding;
     private LoginViewModel mLoginViewModel;
 
-    public LoginFragment() {
+    public EmailLoginFragment() {
         // Required empty public constructor
     }
 
-    public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
+    public static EmailLoginFragment newInstance() {
+        EmailLoginFragment fragment = new EmailLoginFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -42,7 +42,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mLoginBinding = DataBindingUtil
-                .inflate(inflater, R.layout.fragment_login, container, false);
+                .inflate(inflater, R.layout.fragment_email_login, container, false);
 
         setListener();
 
@@ -52,19 +52,24 @@ public class LoginFragment extends Fragment {
 
     private void setListener() {
         mLoginBinding.buttonLogin.setOnClickListener(view -> {
-            String username = mLoginBinding.editTextUsername.getText().toString();
-            String password = mLoginBinding.editTextPassword.getText().toString();
-            if (username.isEmpty()) {
-                mLoginBinding.editTextUsername.setError("username is required");
-            } else if (password.isEmpty()) {
-                mLoginBinding.editTextPassword.setError("password is required");
+            String email = mLoginBinding.editTextEmail.getText().toString();
+            if (email.isEmpty()) {
+                mLoginBinding.editTextEmail.setError("Email is required");
             } else {
-                if (mLoginViewModel.isInfoExist(username, password)) {
-                    mLoginViewModel.sendOrder();
+                if (mLoginViewModel.isEmailExist(email)) {
+                    goToSendOrderPage();
                 } else {
-                    mLoginViewModel.signUp(username, password);
+                    goToSignUpPage();
                 }
             }
         });
+    }
+
+    private void goToSendOrderPage() {
+
+    }
+
+    private void goToSignUpPage(){
+
     }
 }

@@ -1,6 +1,7 @@
 package org.maktab36.finalproject.data.remote.retrofit;
 
 import org.maktab36.finalproject.data.model.Categories;
+import org.maktab36.finalproject.data.model.Customer;
 import org.maktab36.finalproject.data.model.Product;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface WoocommerceService {
 
     @GET("products/categories")
     Call<List<Categories>> getCategories(@QueryMap Map<String, String> options);
+
+    @GET("customers")
+    Call<Customer> findCustomer(@QueryMap Map<String, String> options);
 }

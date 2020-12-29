@@ -96,7 +96,7 @@ public class CartFragment extends Fragment {
 
     private void setListeners() {
         mCartBinding.buttonContinueCart.setOnClickListener(view -> {
-            LoginFragment fragment = LoginFragment.newInstance();
+            EmailLoginFragment fragment = EmailLoginFragment.newInstance();
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)

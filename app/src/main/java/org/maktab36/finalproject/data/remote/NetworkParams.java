@@ -69,4 +69,11 @@ public class NetworkParams {
             put("per_page","30");
         }};
     }
+
+    public static Map<String, String> getCustomerByEmailOptions(String email){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("email",email);
+        }};
+    }
 }

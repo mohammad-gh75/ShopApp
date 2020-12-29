@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.reflect.TypeToken;
 
 import org.maktab36.finalproject.data.model.Categories;
+import org.maktab36.finalproject.data.model.Customer;
 import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.data.remote.NetworkParams;
 import org.maktab36.finalproject.data.remote.retrofit.CategoriesDeserializer;
+import org.maktab36.finalproject.data.remote.retrofit.CustomerDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.ProductDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.ProductListDeserializer;
 import org.maktab36.finalproject.data.remote.retrofit.RetrofitInstance;
@@ -31,6 +33,7 @@ public class ProductRepository {
     private WoocommerceService mWoocommerceServiceProductList;
     private WoocommerceService mWoocommerceServiceProduct;
     private WoocommerceService mWoocommerceServiceCategories;
+    private WoocommerceService mWoocommerceServiceCustomer;
     private MutableLiveData<List<Product>> mLastProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostViewProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mMostPointsProductsLiveData = new MutableLiveData<>();
@@ -62,16 +65,26 @@ public class ProductRepository {
         }.getType();
         Object typeAdapterCategories = new CategoriesDeserializer();
 
+        Type typeCustomer=new TypeToken<Customer>(){
+        }.getType();
+        Object typeAdapterCustomer = new CustomerDeserializer();
+
         Retrofit retrofitProductList = RetrofitInstance
                 .getInstance(typeProductList, typeAdapterProductList);
         Retrofit retrofitProduct = RetrofitInstance
                 .getInstance(typeProduct, typeAdapterProduct);
         Retrofit retrofitCategories = RetrofitInstance
                 .getInstance(typeCategories, typeAdapterCategories);
+        Retrofit retrofitCustomers = RetrofitInstance
+                .getInstance(typeCustomer, typeAdapterCustomer);
+
         mWoocommerceServiceProductList = retrofitProductList.create(WoocommerceService.class);
         mWoocommerceServiceProduct = retrofitProduct.create(WoocommerceService.class);
         mWoocommerceServiceCategories = retrofitCategories.create(WoocommerceService.class);
+        mWoocommerceServiceCustomer=retrofitCustomers.create(WoocommerceService.class);
     }
+
+
 
 
     public MutableLiveData<List<Product>> getLastProductsLiveData() {
@@ -305,5 +318,19 @@ public class ProductRepository {
             return products;
         }*/
         return products;
+    }
+
+    public Customer getCustomerSync(String email){
+        Call<Customer> call=mWoocommerceServiceCustomer
+                .findCustomer(NetworkParams.getCustomerByEmailOptions(email));
+        Customer customer=null;
+
+        try {
+            customer = call.execute().body();
+        }catch(IOException e){
+            Log.e("reza3", e.getMessage(), e);
+        }
+
+        return customer;
     }
 }

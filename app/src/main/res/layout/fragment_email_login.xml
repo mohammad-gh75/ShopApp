@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.LoginFragment">
+        tools:context=".view.fragment.EmailLoginFragment">
 
         <TextView
             android:id="@+id/text_view_login"
@@ -23,30 +23,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/edit_text_username"
+            android:id="@+id/edit_text_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:ems="10"
-            android:hint="@string/login_username"
-            android:inputType="textPersonName"
+            android:hint="@string/login_email"
+            android:inputType="textWebEmailAddress|textEmailAddress"
             android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_view_login" />
-
-        <EditText
-            android:id="@+id/edit_text_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:ems="10"
-            android:hint="@string/login_password"
-            android:inputType="textNoSuggestions|textPassword"
-            android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_username" />
 
         <Button
             android:id="@+id/button_login"
@@ -60,6 +47,6 @@
             app:cornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_password" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
