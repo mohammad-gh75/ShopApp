@@ -20,6 +20,7 @@ public class EmailLoginFragment extends Fragment {
 
     private FragmentEmailLoginBinding mLoginBinding;
     private LoginViewModel mLoginViewModel;
+    private String mEmail;
 
     public EmailLoginFragment() {
         // Required empty public constructor
@@ -61,12 +62,12 @@ public class EmailLoginFragment extends Fragment {
 
     private void setListener() {
         mLoginBinding.buttonLogin.setOnClickListener(view -> {
-            String email = mLoginBinding.editTextEmail.getText().toString();
-            Log.d("reza3", "setListener: "+email);
-            if (email.isEmpty()) {
+            mEmail = mLoginBinding.editTextEmail.getText().toString();
+            Log.d("reza3", "setListener: "+mEmail);
+            if (mEmail.isEmpty()) {
                 mLoginBinding.editTextEmail.setError("Email is required");
             } else {
-                mLoginViewModel.fetchCustomerLiveData(email);
+                mLoginViewModel.fetchCustomerLiveData(mEmail);
             }
         });
     }
@@ -77,5 +78,11 @@ public class EmailLoginFragment extends Fragment {
 
     private void goToSignUpPage(){
         Toast.makeText(getActivity(), "customer not exist", Toast.LENGTH_SHORT).show();
+        SignUpFragment fragment =SignUpFragment.newInstance(mEmail);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container,fragment)
+                .addToBackStack("SignUpFragment")
+                .commit();
     }
 }

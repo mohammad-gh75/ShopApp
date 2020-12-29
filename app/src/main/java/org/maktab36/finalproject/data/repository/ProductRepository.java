@@ -47,6 +47,7 @@ public class ProductRepository {
     private MutableLiveData<List<Categories>> mProductCategoriesLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mCategoryProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
+    private MutableLiveData<Customer> mNewCustomerLiveData = new MutableLiveData<>();
     private List<Integer> mCartProductsId = new ArrayList<>();
 
     public static ProductRepository getInstance() {
@@ -129,6 +130,10 @@ public class ProductRepository {
 
     public MutableLiveData<Customer> getCustomerLiveData() {
         return mCustomerLiveData;
+    }
+
+    public MutableLiveData<Customer> getNewCustomerLiveData() {
+        return mNewCustomerLiveData;
     }
 
     public List<Integer> getCartProductsId() {
@@ -341,6 +346,25 @@ public class ProductRepository {
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
                 Log.d("reza3", t.getMessage(), t);
+            }
+        });
+    }
+
+    public void createCustomer(String email, String firstName,String lastName, String username){
+        Call<Customer> call=mWoocommerceServiceCustomer
+                .signUpCustomer(
+                        NetworkParams
+                        .getCustomerFields(email, firstName, lastName, username));
+
+        call.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                mNewCustomerLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Log.d("reza3", t.getMessage(),t);
             }
         });
     }

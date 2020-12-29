@@ -76,4 +76,15 @@ public class NetworkParams {
             put("email",email);
         }};
     }
+
+    public static Map<String, String> getCustomerFields(
+            String email,String firstName,String lastName, String username){
+        return new HashMap<String,String>(){{
+            putAll(BASE_OPTIONS);
+            put("email",email);
+            put("first_name",firstName);
+            put("last_name",lastName);
+            put("username",username);
+        }};
+    }
 }

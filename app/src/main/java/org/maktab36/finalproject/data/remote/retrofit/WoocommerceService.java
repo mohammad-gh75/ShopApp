@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -25,4 +28,7 @@ public interface WoocommerceService {
 
     @GET("customers")
     Call<Customer> findCustomer(@QueryMap Map<String, String> options);
+
+    @POST("customers")
+    Call<Customer> signUpCustomer(@QueryMap Map<String, String> fields);
 }

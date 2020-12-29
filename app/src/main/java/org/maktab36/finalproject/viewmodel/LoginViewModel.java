@@ -18,15 +18,21 @@ public class LoginViewModel extends AndroidViewModel {
     private ProductRepository mRepository;
 
     private LiveData<Customer> mCustomerLiveData;
+    private LiveData<Customer> mNewCustomerLiveData;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
         mRepository=ProductRepository.getInstance();
         mCustomerLiveData=mRepository.getCustomerLiveData();
+        mNewCustomerLiveData = mRepository.getNewCustomerLiveData();
     }
 
     public LiveData<Customer> getCustomerLiveData() {
         return mCustomerLiveData;
+    }
+
+    public LiveData<Customer> getNewCustomerLiveData() {
+        return mNewCustomerLiveData;
     }
 
     public void fetchCustomerLiveData(String email){
@@ -39,7 +45,8 @@ public class LoginViewModel extends AndroidViewModel {
     }
 
 
-    public void signUp(String username, String password) {
+    public void signUp(String email,String firstName,String lastName,String username) {
+        mRepository.createCustomer(email, firstName, lastName, username);
     }
 
 }
