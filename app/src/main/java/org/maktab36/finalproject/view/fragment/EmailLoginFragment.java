@@ -1,9 +1,11 @@
 package org.maktab36.finalproject.view.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -35,6 +37,13 @@ public class EmailLoginFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mLoginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        mLoginViewModel.getCustomerLiveData().observe(this,customer -> {
+            if (mLoginViewModel.isCustomerExist(customer)) {
+                goToSendOrderPage();
+            } else {
+                goToSignUpPage();
+            }
+        });
 
     }
 
@@ -53,23 +62,20 @@ public class EmailLoginFragment extends Fragment {
     private void setListener() {
         mLoginBinding.buttonLogin.setOnClickListener(view -> {
             String email = mLoginBinding.editTextEmail.getText().toString();
+            Log.d("reza3", "setListener: "+email);
             if (email.isEmpty()) {
                 mLoginBinding.editTextEmail.setError("Email is required");
             } else {
-                if (mLoginViewModel.isEmailExist(email)) {
-                    goToSendOrderPage();
-                } else {
-                    goToSignUpPage();
-                }
+                mLoginViewModel.fetchCustomerLiveData(email);
             }
         });
     }
 
     private void goToSendOrderPage() {
-
+        Toast.makeText(getActivity(), "customer exist", Toast.LENGTH_SHORT).show();
     }
 
     private void goToSignUpPage(){
-
+        Toast.makeText(getActivity(), "customer not exist", Toast.LENGTH_SHORT).show();
     }
 }

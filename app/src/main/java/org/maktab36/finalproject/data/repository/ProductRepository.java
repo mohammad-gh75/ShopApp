@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +46,7 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mSearchProductsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Categories>> mProductCategoriesLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mCategoryProductsLiveData = new MutableLiveData<>();
+    private MutableLiveData<Customer> mCustomerLiveData = new MutableLiveData<>();
     private List<Integer> mCartProductsId = new ArrayList<>();
 
     public static ProductRepository getInstance() {
@@ -121,6 +125,10 @@ public class ProductRepository {
 
     public MutableLiveData<List<Product>> getCategoryProductsLiveData() {
         return mCategoryProductsLiveData;
+    }
+
+    public MutableLiveData<Customer> getCustomerLiveData() {
+        return mCustomerLiveData;
     }
 
     public List<Integer> getCartProductsId() {
@@ -320,17 +328,20 @@ public class ProductRepository {
         return products;
     }
 
-    public Customer getCustomerSync(String email){
+    public void fetchCustomerLiveData(String email){
         Call<Customer> call=mWoocommerceServiceCustomer
                 .findCustomer(NetworkParams.getCustomerByEmailOptions(email));
-        Customer customer=null;
 
-        try {
-            customer = call.execute().body();
-        }catch(IOException e){
-            Log.e("reza3", e.getMessage(), e);
-        }
+        call.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                mCustomerLiveData.setValue(response.body());
+            }
 
-        return customer;
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Log.d("reza3", t.getMessage(), t);
+            }
+        });
     }
 }

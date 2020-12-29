@@ -1,5 +1,6 @@
 package org.maktab36.finalproject.data.remote.retrofit;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -19,7 +20,9 @@ public class CustomerDeserializer implements JsonDeserializer<Customer> {
             Type typeOfT,
             JsonDeserializationContext context) throws JsonParseException {
 
-        JsonObject customerObject=json.getAsJsonObject();
+        JsonArray customerArray=json.getAsJsonArray();
+
+        JsonObject customerObject=customerArray.get(0).getAsJsonObject();
 
         int id = customerObject.get("id").getAsInt();
         String username = customerObject.get("username").getAsString();
