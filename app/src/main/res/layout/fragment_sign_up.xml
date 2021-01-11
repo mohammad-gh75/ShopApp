@@ -136,6 +136,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_sign_up_username" />
 
+            <TextView
+                android:id="@+id/text_view_sign_up_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:text="@string/address_text"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_text_sign_up_username" />
+
+
             <Button
                 android:id="@+id/button_sign_up"
                 android:layout_width="wrap_content"
@@ -143,12 +160,12 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:padding="8dp"
-                android:text="ثبت نام"
+                android:text="@string/sign_up_button"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_cancel"
-                app:layout_constraintTop_toBottomOf="@+id/edit_text_sign_up_username" />
+                app:layout_constraintTop_toBottomOf="@+id/include" />
 
             <Button
                 android:id="@+id/button_cancel"
@@ -157,12 +174,25 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:padding="8dp"
-                android:text="لغو"
+                android:text="@string/cancel_button"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/button_sign_up"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_text_sign_up_username" />
+                app:layout_constraintTop_toBottomOf="@+id/include" />
+
+            <fragment
+                android:id="@+id/include"
+                android:name="org.maktab36.finalproject.view.fragment.MapFragment"
+                android:layout_width="0dp"
+                android:layout_height="400dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_sign_up_address" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

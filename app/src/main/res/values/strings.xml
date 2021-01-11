@@ -34,7 +34,10 @@
     <string name="username_text">نام کاربری</string>
     <string name="first_name_text">نام</string>
     <string name="last_name_text">نام خانوادگی</string>
+    <string name="address_text">آدرس</string>
     <string name="login_button">ورود یا ثبت نام</string>
+    <string name="sign_up_button">ثبت نام</string>
+    <string name="cancel_button">لغو</string>
     <string name="toast_add_to_cart">محصول به سبد خرید افزوده شد</string>
     <string name="sort_most_sale">پرفروش ترین</string>
     <string name="sort_most_expensive">گران ترین</string>

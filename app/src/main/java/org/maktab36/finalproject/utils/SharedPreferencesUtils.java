@@ -16,8 +16,16 @@ public class SharedPreferencesUtils {
         preferences
                 .edit()
                 .putInt(PREF_LAST_RESULT_ID, lastResultId)
-                .apply();;
+                .apply();
     }
+
+    /*public static void setCustomerAddress(Context context, String customerAddress){
+        SharedPreferences preferences = getDefaultSharedPreferences(context);
+        preferences
+                .edit()
+                .putString(,)
+                .apply();
+    }*/
 
     private static SharedPreferences getDefaultSharedPreferences(Context context) {
         return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
