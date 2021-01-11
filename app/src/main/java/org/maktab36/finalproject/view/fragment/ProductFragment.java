@@ -72,11 +72,14 @@ public class ProductFragment extends Fragment {
     private void initUI() {
         mProductBinding.textViewProductName
                 .setText(mProductViewModel.getSelectedProduct().getName());
-        mProductBinding.textViewProductPrice
-                .setText(getString(
-                        R.string.product_price,
-                        StringUtils.getFormattedPrice(
-                                mProductViewModel.getSelectedProduct().getPrice())));
+        String price=mProductViewModel.getSelectedProduct().getPrice();
+        if(!price.isEmpty()) {
+            mProductBinding.textViewProductPrice
+                    .setText(getString(
+                            R.string.product_price,
+                            StringUtils.getFormattedPrice(
+                                    mProductViewModel.getSelectedProduct().getPrice())));
+        }
         mProductBinding.ratingBar.setRating(mProductViewModel.getSelectedProduct().getRate());
         mProductBinding.textViewProductDescription.setText(
                 StringUtils.getProductDescription(

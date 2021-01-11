@@ -29,23 +29,15 @@ public class ProductListDeserializer implements JsonDeserializer<List<Product>> 
             String name = productObject.get("name").getAsString();
             String description = productObject.get("description").getAsString();
             String price = productObject.get("price").getAsString();
-//            String linkPath = getProductLink(productObject);
             List<String> imagesUrl = getProductImagesUrl(productObject);
             float rate = Float.parseFloat(productObject.get("average_rating").getAsString());
 
             Product product =
-                    new Product(id, name, description, price/*, linkPath*/, imagesUrl, rate);
+                    new Product(id, name, description, price, imagesUrl, rate);
             products.add(product);
         }
         return products;
     }
-
-    /*private String getProductLink(JsonObject productObject) {
-        JsonObject link = productObject.get("_links").getAsJsonObject();
-        JsonArray self = link.get("self").getAsJsonArray();
-        JsonObject href = self.get(0).getAsJsonObject();
-        return href.get("href").getAsString();
-    }*/
 
     private List<String> getProductImagesUrl(JsonObject productObject) {
         List<String> imagesUrl = new ArrayList<>();

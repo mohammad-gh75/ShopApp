@@ -15,6 +15,8 @@ import org.maktab36.finalproject.data.model.Product;
 import org.maktab36.finalproject.databinding.ListRowMostViewAndLastProductBinding;
 import org.maktab36.finalproject.viewmodel.MainViewModel;
 
+import java.util.List;
+
 public class ListLastProductAdapter extends
         RecyclerView.Adapter<ListLastProductAdapter.LastProductViewHolder> {
 
@@ -66,10 +68,20 @@ public class ListLastProductAdapter extends
             mProduct = mViewModel.getLastProducts().get(position);
             mRowProductBinding.textViewProductNumber.setText(String.valueOf(position + 1));
             mRowProductBinding.textViewProductName.setText(mProduct.getName());
-            Picasso.get()
-                    .load(mProduct.getImagesUrl().get(0))
-                    .placeholder(R.drawable.ic_image)
-                    .into(mRowProductBinding.imageViewProductImage);
+            List<String> imagesUrl=mProduct.getImagesUrl();
+            if(imagesUrl.isEmpty()){
+                mRowProductBinding.imageViewProductImage
+                        .setImageDrawable(mViewModel
+                                .getApplication()
+                                .getResources()
+                                .getDrawable(R.drawable.ic_image));
+            }else{
+                Picasso.get()
+                        .load(imagesUrl.get(0))
+                        .placeholder(R.drawable.ic_image)
+                        .into(mRowProductBinding.imageViewProductImage);
+            }
+
         }
     }
 }
